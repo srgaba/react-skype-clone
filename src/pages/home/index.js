@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Header from './components/header';
+import ChatList from './components/chatlist';
 
 import {
     Container,
@@ -14,8 +15,9 @@ export default function Home()
         <Container>
             <Left>
                 <Header />  
-                
+                <ChatList />
             </Left>
+            
             <Right>
                 
 

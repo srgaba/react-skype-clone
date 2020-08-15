@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;  
 
 export const Left = styled.div`
-    background-color: #F0F4F8;
+    background-color: #E8EDF5;
     width: 20%;
 `;
 
