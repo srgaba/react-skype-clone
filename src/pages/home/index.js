@@ -2,6 +2,7 @@ import React from 'react';
 
 import Header from './components/header';
 import ChatList from './components/chatlist';
+import Chat from './components/chat';
 
 import {
     Container,
@@ -19,8 +20,7 @@ export default function Home()
             </Left>
             
             <Right>
-                
-
+                <Chat />
             </Right>
         </Container>
     )

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import px2vw from '../../../../util/px2vw';
 
 export const Container = styled.header`
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: ${px2vw(20)};
 
     width: 100%;
     height: ${px2vw(220)};
