@@ -20,16 +20,32 @@ export default function Chat()
     const [messages, setMessages] = useState([
         {
             owner: true,
-            content: '',
-            hour: '22h25'
+            header: '22h25',
+            content: 'Olá Gabriel, como você está?',
         },
         {
             owner: false,
-            content: '',
-            hour: '22h25',
+            header: 'Gabriel Cerqueira, 22h25',
+            content: 'Eu estou puto, mas sigo firme.',
             img_url: eupng
         },
     ]);
+
+    const [send, setSend] = useState('');
+    const [showButtonSend, setShowButtonSend] = useState(false);
+
+    const handleInputSendChange = data => {
+        const { target: { value } } = data;
+
+        if(value.length > 0)
+        {
+            setShowButtonSend(true);
+        } else {
+            setShowButtonSend(false);
+        };
+
+        setSend(value);
+    };
 
     return(
        <Container>
@@ -45,45 +61,35 @@ export default function Chat()
            </Header>
 
            <Body>
-                <Message owner>
-                    <div>
-                        <h1>20:29</h1>
-                        <p>Estou enviando uma mensagem</p>
-                    </div>
-                </Message>
-                <Message>
-                    <img src={eupng} alt="static"/>
-                    <div>
-                        <h1>Gabriel Cerqueira, 20:29</h1>
-                        <p>Estou enviando uma mensagem</p>
-                    </div>
-                </Message>
-                <Message marginLeft>
-                    <div>
-                        <p>Estou enviando uma mensagem</p>
-                    </div>
-                </Message>
-                <Message owner>
-                    <div>
-                        <h1>20:29</h1>
-                        <p>Estou enviando uma mensagem</p>
-                    </div>
-                </Message>
+               {messages.map(message => (
+                   <Message owner={message.owner ? true : false}>
+                       {!message.owner && <img src={message.img_url} alt="static"/> }
+                        <div>
+                            <h1>{message.header}</h1>
+                            <p>{message.content}</p>
+                        </div>
+                   </Message>
+               ))}
            </Body>
 
            <SendBox>
                 <Input>
                     <input 
+                        onChange={handleInputSendChange}
+                        value={send}
                         type="text"
                         placeHolder="Digite aqui" 
                     />
                 </Input>
-                <Submit />
-                {/* <SendBoxButtons>
-                    <div style={{ marginLeft: '20px' }}/>
-                    <div />
-                    <div />
-                </SendBoxButtons> */}
+                {showButtonSend ? 
+                    <Submit />
+                    :
+                    <SendBoxButtons>
+                        <div style={{ marginLeft: '20px' }}/>
+                        <div />
+                        <div />
+                    </SendBoxButtons>
+                }
            </SendBox>
        </Container>
     );

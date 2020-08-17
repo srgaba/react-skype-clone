@@ -9,11 +9,14 @@ export const Container = styled.div`
 `;  
 
 export const Left = styled.div`
+    position: fixed;
     background-color: #E8EDF5;
     width: 25%;
+    height: 100%;
 `;
 
 export const Right = styled.div`
     background-color: #fff;
+    margin-left: 25%;
     width: 75%;
 `;

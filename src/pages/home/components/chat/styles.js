@@ -99,7 +99,7 @@ export const Message = styled.li`
 `;;
 
 export const SendBox = styled.div`
-    margin-top: ${px2vw(220)};
+    margin-top: ${px2vw(380)};
     margin-left:  ${px2vw(45)};
 
     height: ${px2vw(70)};  
