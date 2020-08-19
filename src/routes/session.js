@@ -9,16 +9,19 @@ export function Session({
     ...rest
 })
     {
-        const { id: signed } =  JSON.parse(localStorage.getItem('user'));
+        try{
+            const { id: signed } =  JSON.parse(localStorage.getItem('user'));
 
-        if(!signed && isPrivate)
-        {
-            return <Redirect to="/" />
-        }
-
-        if(signed && !isPrivate)
-        {
-            return <Redirect to="/home" />
+            if(!isPrivate)
+            {
+                return <Redirect to="/" />
+            }
+        }catch(err)
+        {   
+            if(isPrivate)
+            {
+                return <Redirect to="/" />
+            };
         };
 
         return (

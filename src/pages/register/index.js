@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory  } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import api from '../../util/api';
@@ -65,7 +65,7 @@ export default function Register()
             <Body>
                 <motion.img 
                     src={skypepng} alt="static"
-                    animate={{ y: -20,  height: "60px", width: "60px"}}
+                    animate={{ y: -20,  scale: 1.4, marginBottom: '3%'}}
                     transition={{ duration: 1.5 }}
                 />
                 <Title>
@@ -95,7 +95,7 @@ export default function Register()
                     />
                 </Inputs>
                 <Message>
-                    <p>Já tem uma conta? <a href="">Logar</a></p>
+                    <p>Já tem uma conta? <Link to="/">Logar</Link> </p>
                 </Message>
                 <ButtonLogin 
                     onClick={handleSubmit}

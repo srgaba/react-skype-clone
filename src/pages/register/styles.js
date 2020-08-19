@@ -76,6 +76,7 @@ export const Inputs = styled.div`
 
 export const Message = styled.div`
     margin-top: ${px2vw(20)};
+    font-size: ${px2vw(18)};
 
     p{
         color: #6E6E6E;  

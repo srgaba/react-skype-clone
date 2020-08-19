@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import px2vw from '../../util/px2vw';
+import { motion } from 'framer-motion';
 
 export const Container = styled.div`
     width: ${px2vw(1440)};
@@ -37,11 +38,12 @@ export const Title = styled.div`
     h1{
         color: #424242;
         font-weight: 550;
-        font-size: ${px2vw(25)};
+        font-size: ${px2vw(23)};
     }
 
     p{
         color: #6E6E6E;
+        font-size: ${px2vw(18)};
     }
 
 `;
@@ -63,7 +65,7 @@ export const Inputs = styled.div`
         }
 
         background: none;
-        border: 1px solid #6E6E6E;
+        border: 1px solid #A9A9A9;
         border-top: none;
         border-right: none;
         border-left: none;
@@ -74,19 +76,18 @@ export const Inputs = styled.div`
 
 export const Message = styled.div`
     margin-top: ${px2vw(20)};
+    font-size: ${px2vw(18)};
 
     p{
         color: #6E6E6E;  
-        font-size: ${px2vw(23)};
     }
 
     a{
         color: #2E64FE;
-        font-size: ${px2vw(18)};
     }
 `;
 
-export const ButtonLogin = styled.button`
+export const ButtonLogin = styled(motion.button)`
     margin-top: ${px2vw(25)};
 
     width: 80%;

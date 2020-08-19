@@ -1,5 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+import api from '../../util/api';
 
 import {
     Container,
@@ -14,10 +17,42 @@ import skypepng from '../../assets/images/skype.png';
 
 export default function Register()
 {
+    const history = useHistory();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleInputEmailChange = data => {
+        setEmail(data.target.value);
+    };
+
+    const handleInputPasswordChange = data => {
+        setPassword(data.target.value);
+    };
+
+    const handleButtonLogin = async () => {
+        try{
+            const { data: { user } } = await api.post('session', {
+                email,
+                password
+            }); 
+
+            localStorage.setItem('user', JSON.stringify(user));
+
+            history.push('/home');
+        }catch(err)
+        {
+            //
+        }
+    };
+
     return(
         <Container>
             <Body>
-                <img src={skypepng} alt="static"/>
+                <motion.img src={skypepng} alt="static"
+                    animate={{ y: -20,  scale: 1.4, marginBottom: '3%'}}
+                    transition={{ duration: 1.5 }}
+                />
                 <Title>
                     <h1>Entrar</h1>
                     <p>continuar para o skype</p>
@@ -26,16 +61,22 @@ export default function Register()
                     <input 
                         type="text"
                         placeholder="Email telefone ou skype"
+                        onChange={handleInputEmailChange}
                     />
                     <input 
                         type="password"
                         placeholder="Senha"
+                        onChange={handleInputPasswordChange}
                     />
                 </Inputs>
                 <Message>
                     <p>não tem uma conta? <Link to="/register">Crie uma</Link> </p>
                 </Message>
-                <ButtonLogin>Próximo</ButtonLogin>
+                <ButtonLogin 
+                    onClick={handleButtonLogin}
+                    whileHover={{ scale: 1.2 }}
+                    transition={{ duration: 0.6 }}
+                >Próximo</ButtonLogin>
             </Body>
         </Container>
     );
