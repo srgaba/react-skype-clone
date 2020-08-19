@@ -77,10 +77,12 @@ export const Message = styled.div`
 
     p{
         color: #6E6E6E;  
+        font-size: ${px2vw(23)};
     }
 
     a{
         color: #2E64FE;
+        font-size: ${px2vw(18)};
     }
 `;
 

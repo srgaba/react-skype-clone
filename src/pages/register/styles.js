@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import px2vw from '../../util/px2vw';
+import { motion } from 'framer-motion';
 
 export const Container = styled.div`
     width: ${px2vw(1440)};
@@ -11,8 +12,8 @@ export const Container = styled.div`
 `;
 
 export const Body = styled.div`
-    width: ${px2vw(470)};
-    height: ${px2vw(580)};
+    width: ${px2vw(510)};
+    height: ${px2vw(630)};
 
     display: flex;
     flex-direction: column;
@@ -37,11 +38,12 @@ export const Title = styled.div`
     h1{
         color: #424242;
         font-weight: 550;
-        font-size: ${px2vw(25)};
+        font-size: ${px2vw(23)};
     }
 
     p{
         color: #6E6E6E;
+        font-size: ${px2vw(18)};
     }
 
 `;
@@ -63,7 +65,7 @@ export const Inputs = styled.div`
         }
 
         background: none;
-        border: 1px solid #6E6E6E;
+        border: 1px solid #A9A9A9;
         border-top: none;
         border-right: none;
         border-left: none;
@@ -84,7 +86,7 @@ export const Message = styled.div`
     }
 `;
 
-export const ButtonLogin = styled.button`
+export const ButtonLogin = styled(motion.button)`
     margin-top: ${px2vw(25)};
 
     width: 80%;
@@ -95,4 +97,5 @@ export const ButtonLogin = styled.button`
     border-radius: ${px2vw(10)};
 
     color: #fff;
-`   
+`;
+

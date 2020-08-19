@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import {
     Container,
@@ -32,7 +33,7 @@ export default function Register()
                     />
                 </Inputs>
                 <Message>
-                    <p>não tem uma conta? <a href="">Crie uma</a></p>
+                    <p>não tem uma conta? <Link to="/register">Crie uma</Link> </p>
                 </Message>
                 <ButtonLogin>Próximo</ButtonLogin>
             </Body>
