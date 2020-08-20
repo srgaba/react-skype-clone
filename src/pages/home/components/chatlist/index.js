@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import api from '../../../../util/api';
 
 import {
     Container,
@@ -10,6 +12,19 @@ import eupng from '../../../../assets/images/eu.png';
 
 export default function ChatList()
 {
+    const [rooms, setRooms] = useState([]);
+
+    useEffect(() => {
+        async function loadRooms()
+        {
+            const { data } = await api.get('messages/listrooms');
+
+            setRooms(data);
+        };
+
+        loadRooms();
+    }, [])
+
     return(
         <Container>
             <NewChat>
@@ -17,30 +32,16 @@ export default function ChatList()
             </NewChat>
 
             <List>
-                <li>
-                    <img src={eupng} alt="static"/>
-                    <div>
-                        <h1>Gabriel Cerqueira</h1>
-                        <p>Preview do meu texto...</p>
-                    </div>
-                    <span>25/04/2001</span>
+                {rooms.map(friend => (
+                    <li>
+                        <img src={friend.url} alt="static"/>
+                        <div>
+                            <h1>{friend.name}</h1>
+                            <p>Preview do meu texto...</p>
+                        </div>
+                        <span>25/04/2001</span>
                 </li>
-                <li>
-                    <img src={eupng} alt="static"/>
-                    <div>
-                        <h1>Gabriel Cerqueira</h1>
-                        <p>Preview do meu texto...</p>
-                    </div>
-                    <span>25/04/2001</span>
-                </li>
-                <li>
-                    <img src={eupng} alt="static"/>
-                    <div>
-                        <h1>Gabriel Cerqueira</h1>
-                        <p>Preview do meu texto...</p>
-                    </div>
-                    <span>25/04/2001</span>
-                </li>
+                ))}
             </List>
         </Container>
     );

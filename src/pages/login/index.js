@@ -32,12 +32,12 @@ export default function Register()
 
     const handleButtonLogin = async () => {
         try{
-            const { data: { user } } = await api.post('session', {
+            const { data } = await api.post('session', {
                 email,
                 password
             }); 
 
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(data));
 
             history.push('/home');
         }catch(err)
@@ -48,7 +48,7 @@ export default function Register()
 
     return(
         <Container>
-            <Body>
+            <Body animate={{ opacity: 1 }} transition={{ duration: 0.75 }}>
                 <motion.img src={skypepng} alt="static"
                     animate={{ y: -20,  scale: 1.4, marginBottom: '3%'}}
                     transition={{ duration: 1.5 }}

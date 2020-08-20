@@ -51,9 +51,7 @@ export default function Register()
                 password
             });
 
-            localStorage.setItem('user', JSON.stringify({id, name, user, email}));
-
-            history.push('/home');
+            history.push('/');
         }catch(err)
         {
             //
@@ -62,7 +60,7 @@ export default function Register()
 
     return(
         <Container>
-            <Body>
+            <Body animate={{ opacity: 1 }} transition={{ duration: 0.75 }}>
                 <motion.img 
                     src={skypepng} alt="static"
                     animate={{ y: -20,  scale: 1.4, marginBottom: '3%'}}

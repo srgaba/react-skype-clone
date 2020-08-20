@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
+import api from '../util/api';
+
 
 export function Session({
     component: Component,
@@ -10,12 +12,15 @@ export function Session({
 })
     {
         try{
-            const { id: signed } =  JSON.parse(localStorage.getItem('user'));
+            const { token } =  JSON.parse(localStorage.getItem('user'));
+
+            api.defaults.headers['Authorization'] = `Bearer ${token}`
 
             if(!isPrivate)
             {
-                return <Redirect to="/" />
-            }
+                return <Redirect to="/home" />
+            };
+            
         }catch(err)
         {   
             if(isPrivate)

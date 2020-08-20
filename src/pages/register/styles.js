@@ -11,7 +11,7 @@ export const Container = styled.div`
     align-items: center;
 `;
 
-export const Body = styled.div`
+export const Body = styled(motion.div)`
     width: ${px2vw(510)};
     height: ${px2vw(630)};
 
@@ -22,6 +22,8 @@ export const Body = styled.div`
     box-shadow: rgba(0, 0, 0, 0.75) 4px 4px 26px -4px;
     border-radius: ${px2vw(30)};
     padding: ${px2vw(55)};
+
+    opacity: 0;
 
     img{
         object: fill;
