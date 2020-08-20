@@ -11,7 +11,7 @@ import {
 
 import eupng from '../../../../assets/images/eu.png';
 
-export default function ChatList()
+export default function ChatList({ navigateRight })
 {
     const [rooms, setRooms] = useState([]);
 
@@ -35,6 +35,17 @@ export default function ChatList()
         loadRooms();
     }, [])
 
+    const returnObjProps = (room_id, friend_id, friend_name, friend_url) => {
+        const obj = {
+            room_id,
+            friend_id,
+            friend_name,
+            friend_url
+        };
+
+        return obj;
+    };
+
     return(
         <Container>
             <NewChat>
@@ -43,7 +54,7 @@ export default function ChatList()
 
             <List>
                 {rooms.map(friend => (
-                    <button>
+                    <button onClick={() => navigateRight('chat', returnObjProps(friend.room_id, friend.friend_id, friend.name, friend.url))}>
                         <li>
                             <img src={friend.url} alt="static"/>
                             <div>

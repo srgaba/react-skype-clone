@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { parseISO, format } from 'date-fns';
+
+import api from '../../../../util/api';
 
 import {
     Container,
@@ -15,8 +18,10 @@ import {
 
 import eupng from '../../../../assets/images/eu.png';
 
-export default function Chat()
+export default function Chat({ props })
 {
+    const [friendName, setFriendName] = useState('');
+
     const [messages, setMessages] = useState([
         {
             owner: true,
@@ -33,6 +38,46 @@ export default function Chat()
 
     const [send, setSend] = useState('');
     const [showButtonSend, setShowButtonSend] = useState(false);
+
+    useEffect(() => {
+        const { friend_name, room_id, friend_url } = props;
+        const { user: { id: user_id } } = JSON.parse(localStorage.getItem('user'));
+        
+
+        async function loadMessages()
+        {
+            const { data } = await api.get(`messages/listinroom/${room_id}`)
+
+            const formattedMessages = data.map(index => {
+                if(index.id === user_id)
+                {
+                    const obj = {
+                        owner: true,
+                        header: format(parseISO(index.createdAt), 'H:mm:s'),
+                        content: index.text
+                    };  
+
+                    return obj;
+                } 
+                else {
+                    const obj = {
+                        owner: false,
+                        header: friend_name + format(parseISO(index.createdAt), 'H:mm:s'),
+                        content: index.text,
+                        img_url: friend_url
+                    };  
+
+                    return obj;
+                }
+            });
+
+            setMessages(formattedMessages);
+        }
+
+        setFriendName(friend_name);
+
+        loadMessages();
+    }, [])
 
     const handleInputSendChange = data => {
         const { target: { value } } = data;
@@ -51,7 +96,7 @@ export default function Chat()
        <Container>
            <Header>
                 <HeaderTitle>
-                    <h1>Gabriel Cerqueira</h1>
+                    <h1>{friendName}</h1>
                     <p>Visto pela última vez hoje | Galeria | Localizar</p>
                 </HeaderTitle>
                 <HeaderButtons>
