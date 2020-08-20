@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { parseISO, format } from 'date-fns';
 
 import api from '../../../../util/api';
 
@@ -19,7 +20,16 @@ export default function ChatList()
         {
             const { data } = await api.get('messages/listrooms');
 
-            setRooms(data);
+            const formattedData = data.map(index => {
+                const obj = {
+                    ...index,
+                    formattedCreated: format(parseISO(index.createdAt), 'dd/MM/yyyy')
+                };
+
+                return obj;
+            });
+
+            setRooms(formattedData);
         };
 
         loadRooms();
@@ -33,14 +43,16 @@ export default function ChatList()
 
             <List>
                 {rooms.map(friend => (
-                    <li>
-                        <img src={friend.url} alt="static"/>
-                        <div>
-                            <h1>{friend.name}</h1>
-                            <p>Preview do meu texto...</p>
-                        </div>
-                        <span>25/04/2001</span>
-                </li>
+                    <button>
+                        <li>
+                            <img src={friend.url} alt="static"/>
+                            <div>
+                                <h1>{friend.name}</h1>
+                                <p>{friend.lastMessage}</p>
+                            </div>
+                            <span>{friend.formattedCreated}</span>
+                        </li>
+                    </button>
                 ))}
             </List>
         </Container>

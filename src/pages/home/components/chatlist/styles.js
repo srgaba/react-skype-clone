@@ -7,7 +7,7 @@ export const Container = styled.div`
     width: 100%;
     height: 100%;
 
-    padding: 13px;
+    padding: ${px2vw(23)};
 `;
 
 export const NewChat = styled.button`
@@ -31,10 +31,18 @@ export const List = styled.ul`
     width: 100%;
     list-style: none;
 
+    button{
+        background: none;
+        border: none;
+    }
+
     li{
-        & + li {
+        &+li {
             margin-top:  ${px2vw(30)};
         }
+
+
+        width: 100%;
 
         display: flex;
         align-items: start;
