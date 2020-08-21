@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { parseISO, format } from 'date-fns';
+import socketio from 'socket.io-client';
 
 import api from '../../../../util/api';
 
@@ -22,19 +23,7 @@ export default function Chat({ props })
 {
     const [friendName, setFriendName] = useState('');
 
-    const [messages, setMessages] = useState([
-        {
-            owner: true,
-            header: '22h25',
-            content: 'Olá Gabriel, como você está?',
-        },
-        {
-            owner: false,
-            header: 'Gabriel Cerqueira, 22h25',
-            content: 'Eu estou puto, mas sigo firme.',
-            img_url: eupng
-        },
-    ]);
+    const [messages, setMessages] = useState([]);
 
     const [send, setSend] = useState('');
     const [showButtonSend, setShowButtonSend] = useState(false);
@@ -42,14 +31,35 @@ export default function Chat({ props })
     useEffect(() => {
         const { friend_name, room_id, friend_url } = props;
         const { user: { id: user_id } } = JSON.parse(localStorage.getItem('user'));
-        
 
-        async function loadMessages()
+        const socket = socketio('http://localhost:3333', { 
+            query: {
+                userId: user_id
+            }
+        });
+
+        socket.on('newmessage-room', props => {
+            const { room_id: room_id_received, messages } = props;
+
+            if(room_id_received === room_id)
+            {
+                setMessages(formatMessages(messages));
+            }
+        });
+        
+        async function loadMessagesApi()
         {
             const { data } = await api.get(`messages/listinroom/${room_id}`)
 
-            const formattedMessages = data.map(index => {
-                if(index.id === user_id)
+            setMessages(formatMessages(data));
+        }
+
+        function formatMessages(messages)
+        {
+            var lastowner;
+            
+            const formattedMessages = messages.map(index => {
+                if(index.user_id === user_id)
                 {
                     const obj = {
                         owner: true,
@@ -57,26 +67,43 @@ export default function Chat({ props })
                         content: index.text
                     };  
 
+                    lastowner = true;
+
                     return obj;
                 } 
                 else {
-                    const obj = {
-                        owner: false,
-                        header: friend_name + format(parseISO(index.createdAt), 'H:mm:s'),
-                        content: index.text,
-                        img_url: friend_url
-                    };  
+                    if(!lastowner)
+                    {
+                        const obj = {
+                            owner: false,
+                            content: index.text,
+                            hide: true
+                        };  
+                       
+                        lastowner = false;
 
-                    return obj;
+                        return obj;
+                    } else {
+                        const obj = {
+                            owner: false,
+                            header: friend_name + " " + format(parseISO(index.createdAt), 'H:mm:s'),
+                            content: index.text,
+                            img_url: friend_url
+                        };  
+                       
+                        lastowner = false;
+
+                        return obj;
+                    }
                 }
             });
 
-            setMessages(formattedMessages);
+            return formattedMessages;
         }
+    
 
+        loadMessagesApi();
         setFriendName(friend_name);
-
-        loadMessages();
     }, [])
 
     const handleInputSendChange = data => {
@@ -107,8 +134,8 @@ export default function Chat({ props })
 
            <Body>
                {messages.map(message => (
-                   <Message owner={message.owner ? true : false}>
-                       {!message.owner && <img src={message.img_url} alt="static"/> }
+                   <Message owner={message.owner ? true : false} hide={message.hide ? true : false}>
+                       {!message.owner && <img src={message.img_url} alt="static" />}
                         <div>
                             <h1>{message.header}</h1>
                             <p>{message.content}</p>

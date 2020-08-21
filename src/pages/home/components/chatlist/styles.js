@@ -56,7 +56,6 @@ export const List = styled.ul`
 
         div{
             margin-left: ${px2vw(9)};
-
             
             h1{
                 color: #696969;

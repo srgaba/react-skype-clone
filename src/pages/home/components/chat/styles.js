@@ -76,9 +76,14 @@ export const Message = styled.li`
     }
 
     img{
+        display: ${props => props.hide ? 'none' : 'inline'};
+
+        margin-right: ${px2vw(10)};
+
         object: fill;
-        height: ${px2vw(40)};
-        border-radius: ${px2vw(20)};
+        height: ${px2vw(60)};
+        width: ${px2vw(65)};
+        border-radius: 50%;
     }
 
     h1{
@@ -88,6 +93,8 @@ export const Message = styled.li`
     }
 
     p{
+        margin-left: ${props => props.hide ? px2vw(75) : 0};
+
         padding: ${px2vw(10)};
         background-color: #CEF6F5;
         border-radius: ${px2vw(14)};

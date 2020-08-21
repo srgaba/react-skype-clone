@@ -46,6 +46,13 @@ export default function ChatList({ navigateRight })
         return obj;
     };
 
+    const cutText = text => {
+        const formattedText = text.slice(0, 22);
+
+        return formattedText;
+    };
+
+
     return(
         <Container>
             <NewChat>
@@ -59,7 +66,7 @@ export default function ChatList({ navigateRight })
                             <img src={friend.url} alt="static"/>
                             <div>
                                 <h1>{friend.name}</h1>
-                                <p>{friend.lastMessage}</p>
+                                <p>{cutText(friend.lastMessage)}</p>
                             </div>
                             <span>{friend.formattedCreated}</span>
                         </li>
