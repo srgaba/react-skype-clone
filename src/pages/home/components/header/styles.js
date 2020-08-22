@@ -131,6 +131,11 @@ export const SectionThree = styled.ul`
         object: fill;
         width: ${px2vw(33)};  
     }
+
+    button{
+        background: none;
+        border: none;
+    }
 `;
 
 export const STItem = styled.li`

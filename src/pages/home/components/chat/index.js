@@ -21,17 +21,18 @@ import eupng from '../../../../assets/images/eu.png';
 
 export default function Chat({ props })
 {
+    const { friend_name, room_id, friend_url, friend_id } = props;
+    const { user: { id: user_id } } = JSON.parse(localStorage.getItem('user'));
+
     const [friendName, setFriendName] = useState('');
 
     const [messages, setMessages] = useState([]);
 
-    const [send, setSend] = useState('');
+    const [sendMessage, setSendMessage] = useState('');
     const [showButtonSend, setShowButtonSend] = useState(false);
 
-    useEffect(() => {
-        const { friend_name, room_id, friend_url } = props;
-        const { user: { id: user_id } } = JSON.parse(localStorage.getItem('user'));
 
+    useEffect(() => {
         const socket = socketio('http://localhost:3333', { 
             query: {
                 userId: user_id
@@ -56,20 +57,32 @@ export default function Chat({ props })
 
         function formatMessages(messages)
         {
-            var lastowner;
-            
+            var lastowner = messages.user_id === user_id ? false : true;
+
             const formattedMessages = messages.map(index => {
                 if(index.user_id === user_id)
                 {
-                    const obj = {
-                        owner: true,
-                        header: format(parseISO(index.createdAt), 'H:mm:s'),
-                        content: index.text
-                    };  
-
-                    lastowner = true;
-
-                    return obj;
+                    if(!lastowner)
+                    {
+                        const obj = {
+                            owner: true,
+                            header: format(parseISO(index.createdAt), 'H:mm'),
+                            content: index.text
+                        };  
+    
+                        lastowner = true;
+    
+                        return obj;
+                    } else {
+                        const obj = {
+                            owner: true,
+                            content: index.text
+                        };  
+    
+                        lastowner = true;
+    
+                        return obj;
+                    }
                 } 
                 else {
                     if(!lastowner)
@@ -86,7 +99,7 @@ export default function Chat({ props })
                     } else {
                         const obj = {
                             owner: false,
-                            header: friend_name + " " + format(parseISO(index.createdAt), 'H:mm:s'),
+                            header: friend_name + " " + format(parseISO(index.createdAt), 'H:mm'),
                             content: index.text,
                             img_url: friend_url
                         };  
@@ -106,6 +119,14 @@ export default function Chat({ props })
         setFriendName(friend_name);
     }, [])
 
+    const handleSubmitMessage = async () => {
+        await api.post(`messages/send/${friend_id}`, {
+            text: sendMessage
+        });
+
+        setSendMessage('');
+    };
+
     const handleInputSendChange = data => {
         const { target: { value } } = data;
 
@@ -116,7 +137,7 @@ export default function Chat({ props })
             setShowButtonSend(false);
         };
 
-        setSend(value);
+        setSendMessage(value);
     };
 
     return(
@@ -131,7 +152,26 @@ export default function Chat({ props })
                     <div />
                 </HeaderButtons>
            </Header>
-
+            
+           <SendBox>
+                <Input>
+                    <input 
+                        onChange={handleInputSendChange}
+                        value={sendMessage}
+                        type="text"
+                        placeHolder="Digite aqui" 
+                    />
+                </Input>
+                {showButtonSend ? 
+                    <Submit onClick={handleSubmitMessage}/>
+                    :
+                    <SendBoxButtons>
+                        <div style={{ marginLeft: '20px' }}/>
+                        <div />
+                        <div />
+                    </SendBoxButtons>
+                }
+           </SendBox>
            <Body>
                {messages.map(message => (
                    <Message owner={message.owner ? true : false} hide={message.hide ? true : false}>
@@ -143,26 +183,6 @@ export default function Chat({ props })
                    </Message>
                ))}
            </Body>
-
-           <SendBox>
-                <Input>
-                    <input 
-                        onChange={handleInputSendChange}
-                        value={send}
-                        type="text"
-                        placeHolder="Digite aqui" 
-                    />
-                </Input>
-                {showButtonSend ? 
-                    <Submit />
-                    :
-                    <SendBoxButtons>
-                        <div style={{ marginLeft: '20px' }}/>
-                        <div />
-                        <div />
-                    </SendBoxButtons>
-                }
-           </SendBox>
        </Container>
     );
 }

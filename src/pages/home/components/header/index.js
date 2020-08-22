@@ -23,7 +23,7 @@ const svgDefaultStyles = {
 };
 
 
-export default function Header()
+export default function Header({ navigateLeft })
 {
     const [findSelected, setFindSelected] = useState(false);
 
@@ -55,20 +55,28 @@ export default function Header()
 
             <SectionThree>
                 <STItem selected>
-                    <ChatSVG style={svgDefaultStyles}/>
-                    <p>Chats</p>
+                    <button onClick={() => navigateLeft('chatlist')}>
+                        <ChatSVG style={svgDefaultStyles}/>
+                        <p>Chats</p>
+                    </button>
                 </STItem>
                 <STItem>
-                    <TelSVG style={svgDefaultStyles}/>
-                    <p>Chamadas</p>
+                    <button >
+                        <TelSVG style={svgDefaultStyles}/>
+                        <p>Chamadas</p>
+                    </button>
                 </STItem>
                 <STItem>
-                    <ContactSVG style={svgDefaultStyles}/>
-                    <p>Contatos</p>
+                    <button onClick={() => navigateLeft('friendlist')}>
+                        <ContactSVG style={svgDefaultStyles}/>
+                        <p>Contatos</p>
+                    </button>
                 </STItem>
                 <STItem>
-                    <SinoSVG style={svgDefaultStyles}/>
-                    <p>Contatos</p>
+                    <button>
+                        <SinoSVG style={svgDefaultStyles}/>
+                        <p>Notificações</p>
+                    </button>
                 </STItem>
             </SectionThree>
         </Container>
