@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { parseISO, format } from 'date-fns';
 
 import api from '../../../../util/api';
+
+import AddFriend from './components';
 
 import {
     Container,
@@ -14,6 +15,7 @@ import eupng from '../../../../assets/images/eu.png';
 export default function ({ navigateRight })
 {
     const [friends, setFriends] = useState([]);
+    const [showAddFriend, setShowAddFriend] = useState(true);
 
     useEffect(() => {
         async function loadFriends()
@@ -39,7 +41,9 @@ export default function ({ navigateRight })
 
     return(
         <Container>
-            <NewFriend>
+            {showAddFriend && <AddFriend setShowAddFriend={setShowAddFriend} showAddFriend={showAddFriend}/>}
+
+            <NewFriend onClick={() => setShowAddFriend(true)}>
                 <p>Novo contato</p>
             </NewFriend>
 

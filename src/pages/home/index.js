@@ -15,8 +15,8 @@ import {
 
 export default function Home()
 {
-    const [friendlistProps, setFriendlistProps] = useState({ selected: false, props: null });
-    const [chatlistProps, setChatlistProps] = useState({ selected: true, props: null });
+    const [friendlistProps, setFriendlistProps] = useState({ selected: true, props: null });
+    const [chatlistProps, setChatlistProps] = useState({ selected: false, props: null });
     
     const [welcomeProps, setWelcomeProps] = useState({ selected: true, props: null });
     const [chatProps, setChatProps] = useState({ selected: false, props: null });
