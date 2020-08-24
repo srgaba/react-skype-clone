@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import px2vw from '../../../../../util/px2vw';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import px2vw from '../../../../../../util/px2vw';
 
 export const Body = styled.div`
     display: flex;
@@ -56,12 +57,67 @@ export const Find = styled.div`
     }
 `;
 
+export const Scroll = styled(PerfectScrollbar)`
+    
+`;
+
+export const Users = styled.ul`
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: ${px2vw(30)};
+
+`;
+
+export const User = styled.li`
+    display: flex;
+    align-items: center;
+
+    img{
+        object: fill;
+        height: ${px2vw(35)};
+        width: ${px2vw(35)};
+    }
+
+    div{
+        margin-left: ${px2vw(22)};
+
+        h1{
+            color: #363636;
+            font-size: ${px2vw(22)};
+        }
+
+        object{
+            display: flex;
+
+            img{
+                height: ${px2vw(20)};
+                width: ${px2vw(20)};
+            }
+        }
+    }
+
+    button{
+        margin-left: ${px2vw(110)};
+        width: ${px2vw(100)};
+        height: ${px2vw(35)};
+        border: none;
+        border-radius: ${px2vw(20)};
+
+        background-color: #363636;
+        color: #fff;
+    }
+`;
+
+
 export const FindMessage = styled.span`
     padding: ${px2vw(28)};
 
     color: #BDBDBD;
     font-size: ${px2vw(17)}; 
-`
+`;
 
 export const Other = styled.ul`
     padding: ${px2vw(28)};

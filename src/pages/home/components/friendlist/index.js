@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import api from '../../../../util/api';
 
-import AddFriend from './components';
+import AddFriend from './components/addfriend';
 
 import {
     Container,
