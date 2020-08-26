@@ -15,7 +15,7 @@ import eupng from '../../../../assets/images/eu.png';
 export default function ({ navigateRight })
 {
     const [friends, setFriends] = useState([]);
-    const [showAddFriend, setShowAddFriend] = useState(true);
+    const [showAddFriend, setShowAddFriend] = useState(false);
 
     useEffect(() => {
         async function loadFriends()

@@ -58,7 +58,7 @@ export const Find = styled.div`
 `;
 
 export const Scroll = styled(PerfectScrollbar)`
-    
+    max-height: 90%;
 `;
 
 export const Users = styled.ul`
@@ -75,6 +75,13 @@ export const User = styled.li`
     display: flex;
     align-items: center;
 
+    &+li{
+        margin-top: ${px2vw(30)};
+    };
+
+    border-bottom: 1px solid #BDBDBD;
+    padding-bottom: ${px2vw(10)};
+
     img{
         object: fill;
         height: ${px2vw(35)};
@@ -83,6 +90,8 @@ export const User = styled.li`
 
     div{
         margin-left: ${px2vw(22)};
+
+        width: ${px2vw(400)};
 
         h1{
             color: #363636;
@@ -100,7 +109,6 @@ export const User = styled.li`
     }
 
     button{
-        margin-left: ${px2vw(110)};
         width: ${px2vw(100)};
         height: ${px2vw(35)};
         border: none;

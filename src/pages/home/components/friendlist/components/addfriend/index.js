@@ -8,6 +8,7 @@ import {
     Header,
     Find,
     FindMessage, 
+    Scroll,
     Users,
     User,
     Other
@@ -18,7 +19,8 @@ export default function ({ showAddFriend, setShowAddFriend })
     const [allUsers, setAllUsers] = useState([]);
     const [usersRender, setUsersRender] = useState([]);
 
-    const [textFind, setTextFind] = useState("a");
+    const [textFind, setTextFind] = useState("");
+
 
     useEffect(() => {
         async function loadUsers()
@@ -31,14 +33,29 @@ export default function ({ showAddFriend, setShowAddFriend })
         loadUsers();
     }, []);
 
+    const handleButtonSendInvite = async id => {
+        await api.post(`friends/invite/${id}`);
+
+        const { data } = await api.get('user/listall');
+
+        await setAllUsers(data);
+
+        formatRender(textFind);
+    };
 
     const handleInputFindChange = data => {
         const { target: { value } } = data;
 
-
-
         setTextFind(data.target.value);
+
+        formatRender(value);
     };
+
+    const formatRender = content => {
+        const result = allUsers.filter(index => index.name.toLowerCase().indexOf(content.toLocaleLowerCase()) > -1);
+
+        setUsersRender(result);
+    };  
 
     return(
         <Modal
@@ -72,21 +89,25 @@ export default function ({ showAddFriend, setShowAddFriend })
                 </Find>
                 {textFind ?
                     <Users>
-                        <User>
-                            <img />
-                            <div>
-                                <h1>Carla Marques</h1>
-                                <object>
-                                    <img />
-                                    <p>usuário</p>
-                                </object>
-                                <object>
-                                    <img />
-                                    <p>localização</p>
-                                </object>
-                            </div>
-                            <button>Adicionar</button>
-                        </User>
+                        {usersRender.map(index => (
+                            <User>
+                                <img />
+                                <div>
+                                    <h1>{index.name}</h1>
+                                    <object>
+                                        <img />
+                                        <p>{index.username}</p>
+                                    </object>
+                                    <object>
+                                        <img />
+                                        <p>localização</p>
+                                    </object>
+                                </div>
+                                <button onClick={() => handleButtonSendInvite(index.id)} >
+                                    {index.invited ? 'Enviado' : 'Adicionar'}
+                                </button>
+                            </User>
+                        ))}
                     </Users>
                 :
                     <>

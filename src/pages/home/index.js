@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Header from './components/header';
 import ChatList from './components/chatlist';
 import FriendList from './components/friendlist';
+import Notifications from './components/notifications';
 
 import Chat from './components/chat';
 import Welcome from './components/welcome';
@@ -15,9 +16,10 @@ import {
 
 export default function Home()
 {
-    const [friendlistProps, setFriendlistProps] = useState({ selected: true, props: null });
+    const [friendlistProps, setFriendlistProps] = useState({ selected: false, props: null });
     const [chatlistProps, setChatlistProps] = useState({ selected: false, props: null });
-    
+    const [notificationProps, setNotificationProps] = useState({ selected: true, props: null });
+
     const [welcomeProps, setWelcomeProps] = useState({ selected: true, props: null });
     const [chatProps, setChatProps] = useState({ selected: false, props: null });
 
@@ -33,6 +35,11 @@ export default function Home()
                 selected: false,
                 props: null
             });
+
+            setNotificationProps({
+                selected: false,
+                props: null
+            });
         }
         else if (component === 'friendlist')
         {
@@ -43,6 +50,28 @@ export default function Home()
 
             setFriendlistProps({
                 selected: true,
+                props: null
+            });
+
+            setNotificationProps({
+                selected: false,
+                props: null
+            });
+        }
+        else if (component === 'notifications')
+        {
+            setNotificationProps({
+                selected: true,
+                props: null
+            });
+
+            setChatlistProps({
+                selected: false,
+                props
+            });
+
+            setFriendlistProps({
+                selected: false,
                 props: null
             });
         }
@@ -81,6 +110,7 @@ export default function Home()
                 <Header navigateLeft={navigateLeft} />  
                 {chatlistProps.selected && <ChatList navigateRight={navigateRight} />}
                 {friendlistProps.selected && <FriendList navigateRight={navigateRight} />}
+                {notificationProps.selected && <Notifications />}
             </Left>
             
             <Right>

@@ -73,7 +73,7 @@ export default function Header({ navigateLeft })
                     </button>
                 </STItem>
                 <STItem>
-                    <button>
+                    <button onClick={() => navigateLeft('notifications')}>
                         <SinoSVG style={svgDefaultStyles}/>
                         <p>Notificações</p>
                     </button>
