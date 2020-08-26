@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import socketio from 'socket.io-client';
 
 import api from '../../../../util/api';
 
@@ -14,9 +15,22 @@ import eupng from '../../../../assets/images/eu.png';
 
 export default function()
 {
+    const { user: { id: user_id } } = JSON.parse(localStorage.getItem('user'));
+
     const [invites, setInvites] = useState([]);
+    const [update, setUpdate] = useState(0);
 
     useEffect(() => {
+        const socket = socketio('http://localhost:3333', { 
+            query: {
+                userId: user_id
+            }
+        });
+
+        socket.on('newinvite-room', () => {
+            loadInvites();
+        });
+
         async function loadInvites()
         {
             const { data } = await api.get('friends/invite/listme');
@@ -25,10 +39,12 @@ export default function()
         }
 
         loadInvites();
-    }, [])
+    }, [update])
 
     const handleButtonAccept = async id => {
         await api.post(`friends/invite/accept/${id}`);
+
+        setUpdate(update + 1);
     };
 
 

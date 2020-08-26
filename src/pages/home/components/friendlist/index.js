@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import socketio from 'socket.io-client';
 import api from '../../../../util/api';
 
 import AddFriend from './components/addfriend';
@@ -14,10 +14,19 @@ import eupng from '../../../../assets/images/eu.png';
 
 export default function ({ navigateRight })
 {
+    const { user: { id: user_id  } } = JSON.parse(localStorage.getItem('user'));
+
     const [friends, setFriends] = useState([]);
     const [showAddFriend, setShowAddFriend] = useState(false);
 
     useEffect(() => {
+        const socket = socketio('http://localhost:3333', { 
+            query: {
+                userId: user_id
+            }
+        });
+
+
         async function loadFriends()
         {
             const { data } = await api.get('friends/listme');

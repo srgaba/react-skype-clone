@@ -28,7 +28,7 @@ export default function ({ showAddFriend, setShowAddFriend })
             const { data } = await api.get('user/listall');
 
             setAllUsers(data);
-        }
+        };
 
         loadUsers();
     }, []);
